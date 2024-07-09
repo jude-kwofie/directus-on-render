@@ -2,7 +2,7 @@
 FROM docker/compose:1.29.2
 
 # Copy the docker-compose.yml file into the working directory
-COPY docker-compose.yml /app/docker-compose.yml
+COPY render.yml /app/render.yml
 
 # Set working directory
 WORKDIR /app
