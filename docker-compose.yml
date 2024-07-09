@@ -6,7 +6,9 @@ services:
     ports:
       - "8055:8055"
     environment:
-      KEY: "value" # Replace with your Directus environment variables as needed
+      ADMIN_EMAIL: "admin@example.com" # Replace with your Directus environment variables as needed
+      ADMIN_PASSWORD: "password"
+      SECRET: "sffdsgdsfjgf"
       DB_CLIENT: "pg"
       DB_HOST: "dpg-cq5v8fg8fa8c738f11f0-a.oregon-postgres.render.com"
       DB_PORT: 5432
