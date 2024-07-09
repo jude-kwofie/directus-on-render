@@ -1,22 +1,55 @@
-version: '3.1'
-
+# render.yaml
 services:
-  directus:
-    image: directus/directus:latest
+  - type: web
+    name: directus
+    env: docker
+    plan: starter
+    serviceDetails:
+      buildCommand: ""
+      startCommand: "docker-compose up"
+    docker:
+      image: directus/directus:latest
+      dockerfilePath: "./"
+    envVars:
+      - key: ADMIN_EMAIL
+        value: admin@example.com
+      - key: ADMIN_PASSWORD
+        value: password
+      - key: SECRET
+        value: sffdsgdsfjgf
+      - key: DB_CLIENT
+        value: pg
+      - key: DB_HOST
+        value: dpg-cq5v8fg8fa8c738f11f0-a.oregon-postgres.render.com
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_DATABASE
+        value: directusdb_3ghc
+      - key: DB_USER
+        value: directususer
+      - key: DB_PASSWORD
+        value: GPmdR3Ih6iPYtXXbsyritaSVU7CmPKYn
+    disk:
+      name: directus_data
+      mountPath: /directus/data
     ports:
-      - "8055:8055"
-    environment:
-      ADMIN_EMAIL: "admin@example.com" # Replace with your Directus environment variables as needed
-      ADMIN_PASSWORD: "password"
-      SECRET: "sffdsgdsfjgf"
-      DB_CLIENT: "pg"
-      DB_HOST: "dpg-cq5v8fg8fa8c738f11f0-a.oregon-postgres.render.com"
-      DB_PORT: 5432
-      DB_DATABASE: "directusdb_3ghc"
-      DB_USER: "directususer"
-      DB_PASSWORD: "GPmdR3Ih6iPYtXXbsyritaSVU7CmPKYn"
-    volumes:
-      - directus_data:/directus/data
+      - containerPort: 8055
 
-volumes:
-  directus_data:
+databases:
+  - name: directus_database
+    engine: postgres
+    version: 13
+    plan: starter
+    properties:
+      databaseName: directusdb_3ghc
+      user: directususer
+      password: GPmdR3Ih6iPYtXXbsyritaSVU7CmPKYn
+    environment:
+      - key: DIRECTUS_DATABASE_HOST
+        fromService: directus_database
+      - key: DIRECTUS_DATABASE_USER
+        fromService: directus_database
+      - key: DIRECTUS_DATABASE_PASSWORD
+        fromService: directus_database
+      - key: DIRECTUS_DATABASE_NAME
+        fromService: directus_database
